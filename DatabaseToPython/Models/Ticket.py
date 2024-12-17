@@ -1,6 +1,6 @@
 import datetime
-import Customer
-import Plane
+from Models.Customer import Customer
+from Models.Plane import Plane
 
 
 class Ticket:
@@ -22,7 +22,7 @@ class Ticket:
 
     @property
     def fromm(self):
-        return self.__from
+        return self.__fromm
     @fromm.setter
     def fromm(self, value):
         self.__fromm = value
