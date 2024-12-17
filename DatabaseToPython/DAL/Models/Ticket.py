@@ -1,6 +1,6 @@
 import datetime
-from Models.Customer import Customer
-from Models.Plane import Plane
+from DAL.Models.Customer import Customer
+from DAL.Models.Plane import Plane
 
 
 class Ticket:

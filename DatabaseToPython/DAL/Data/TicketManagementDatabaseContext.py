@@ -1,42 +1,20 @@
 import pymssql
-from Models.Plane import Plane
-from Models.Customer import Customer
-from Models.Ticket import Ticket
+from DAL.Models.Plane import Plane
+from DAL.Models.Customer import Customer
+from DAL.Models.Ticket import Ticket
 
 
 class TicketManagementDatabaseContext:
 
-    @property
-    def connection(self):
-        return pymssql.connect(host=r'localhost\SQLEXPRESS',database='TicketManagementDatabase')
+    connection = pymssql
 
     plane_list = []
     customer_list = []
     ticket_list = []
 
     def __init__(self):
-        self.read_from_planes()
-        self.read_from_customers()
-        self.read_from_tickets()
-
-    def read_from_planes(self):
-        cursor = self.connection.cursor()
-
-        cursor.execute('SELECT * FROM [Planes]')
-
-        rows = cursor.fetchall()
-
-        for column in rows:
-            plane = Plane()
-
-            plane.id = column[0]
-            plane.name = column[1]
-            plane.make = column[2]
-            plane.model = column[3]
-
-            self.plane_list.insert(column[0], plane)
-
-        cursor.close()
+        if self.connection is None:
+            self.connection = pymssql.connect(host=r'localhost\SQLEXPRESS',database='TicketManagementDatabase')
 
     def read_from_customers(self):
         cursor = self.connection.cursor()
@@ -81,6 +59,9 @@ class TicketManagementDatabaseContext:
 
         cursor.close()
 
+"""EXAMPLE READ FROM DATABASE
+
+
 context = TicketManagementDatabaseContext()
 
 print('---------------------PLANES---------------------------')
@@ -94,4 +75,4 @@ for customer in context.customer_list:
 
 print('---------------------TICKETS-----------------------------')
 for ticket in context.ticket_list:
-    print(f'{ticket.id} - {ticket.fromm} - {ticket.to} - {ticket.departure_time} - {ticket.arrival_time} - {ticket.seat_number} - {ticket.plane_id} - {ticket.customer_id}')
+    print(f'{ticket.id} - {ticket.fromm} - {ticket.to} - {ticket.departure_time} - {ticket.arrival_time} - {ticket.seat_number} - {ticket.plane_id} - {ticket.customer_id}')"""
